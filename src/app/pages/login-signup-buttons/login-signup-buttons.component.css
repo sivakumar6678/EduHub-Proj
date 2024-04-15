@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Style for active state */
+#loginButton.active, #signupButton.active {
+  background-color: rgb(7, 65, 255); /* Change to your desired active state style */
+  color: white; /* Change to your desired active state style */
+}
+
+/* Other button styles */
+.btn-primary {
+  color: rgb(7, 7, 7); /* Change to your desired button text color */
+  font-size: 1.3rem;
+  font-weight: bold;
+  height: 2.5rem;
+  border: none;
+  border-bottom-left-radius:1rem ;
+  border-bottom-right-radius:1.25rem ;
+  width: 50%; /* Extend button width to the end of the form */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #35d435c2; 
+  transform: scale(1.1);
+  transition: all 0.75s ease;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.loginandsignup {
+  margin: 0 -4rem;
+}

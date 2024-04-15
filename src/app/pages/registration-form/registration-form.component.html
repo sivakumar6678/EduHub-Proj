@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="register-form">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="container">
+          <div class="registration-form">
+            <app-login-signup-buttons (login)="navigateToLogin()" (signup)="navigateToSignup()"></app-login-signup-buttons>
+            <form [formGroup]="registrationForm" (ngSubmit)="registerUser()" class="registration-form shadow p-3 mb-5 bg-white rounded">
+              <h1 class="mb-4">Student Registration Form</h1>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>  
+                  <input type="text" id="username" formControlName="username" class="form-control">
+                  <span  *ngIf="username?.invalid && username?.errors?.['required']" class="vlaid text-danger">Username is required</span>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">E-Mail</label>
+                <input type="email" id="email" formControlName="email" class="form-control">
+                <span *ngIf="email?.invalid && email?.errors?.['required']" class=" vlaid text-danger">Email is required</span>
+                <span *ngIf="email?.invalid && email?.errors?.['email']" class="vlaid text-danger">Invalid email format</span>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" formControlName="password" class="form-control">
+                <span *ngIf="password?.invalid && password?.errors?.['required']" class=" vlaid text-danger">Password is required</span>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Conform Password</label>
+                <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
+                <span *ngIf="confirmPassword?.invalid && confirmPassword?.errors?.['required']" class=" vlaid text-danger">Conform Password is required</span>
+                <span *ngIf="!passwordsMatch()" class="vlaid text-danger">Passwords must match</span>
+              </div>
+              <button type="submit" [disabled]="registrationForm.invalid || !passwordsMatch()" class="btn btn-primary">Register</button>
+            </form>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-6 text-center">
+        <p>If you have already registered, click <button type="button" class="btn btn-link" (click)="toggleLogin()">here</button> to login.</p>
+      </div>
+    </div>
+  </div>
+</div>

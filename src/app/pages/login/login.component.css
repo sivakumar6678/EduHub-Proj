@@ -15,10 +15,9 @@ form h1 {
 }
 
 .container {
-  /* background-color: aqua; */
   display: flex;
-  display: flex;
-  justify-content: center;
+  justify-content: center; /* Align the form to the right */
+  align-items: center;
   padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
@@ -27,14 +26,28 @@ form h1 {
 }
 .container .login-form {
   background-color: #dadada;
+  margin-right: 5rem;
   border-radius: 10px;
   padding: 0 1.75rem 1.75rem 1.75rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
   
 }
 .container .login-forms .login-form {
-  margin-right: 5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.text-right{
+  color: #000;
+  margin: 0.6rem 0.6rem;
+  float: right;
+}
+.text-right a{
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 form div {
   margin: 0.6rem 0.2rem;
   font-size: 1.25rem;
@@ -138,9 +151,9 @@ form div {
   height: 20px;
   line-height: 20px;
   text-align: center;
-  border: 1px solid #ccc; /* Border color for the toggle button */
-  border-radius: 50%; /* Border radius for circular toggle button */
-  margin-right: 10px; /* Adjust spacing between the icon and label */
+  border: 1px solid #ccc; 
+  border-radius: 50%; 
+  margin-right: 10px; 
 }
 
 /* Style for the checked state of the toggle button icon */

@@ -15,7 +15,6 @@ form h1{
 }
 
 .container {
-  /* background-color: aqua; */
   display: flex;
   justify-content: center; /* Align the form to the right */
   align-items: center;

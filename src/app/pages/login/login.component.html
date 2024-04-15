@@ -17,7 +17,7 @@
               </div>
               <div class="mb-3">
                 <label *ngIf="login.controls['loginMethod'].value === 'username'" for="username" class="form-label">Username</label>
-                <input *ngIf="login.controls['loginMethod'].value === 'username'" type="text" id="username" formControlName="username" class="form-control">
+                <input *ngIf="login.controls['loginMethod'].value === 'username'" placeholder="Enter Username" type="text" id="username" formControlName="username" class="form-control">
                 <label *ngIf="login.controls['loginMethod'].value === 'email'" for="email" class="form-label">Email</label>
                 <input *ngIf="login.controls['loginMethod'].value === 'email'" type="email" id="email" formControlName="email" class="form-control">
               </div>
@@ -27,10 +27,12 @@
                   <input type="{{ passwordVisible ? 'text' : 'password' }}" id="password" formControlName="password" class="form-control">
                   <i class="password-toggle-icon fas" [ngClass]="{ 'fa-eye': !passwordVisible, 'fa-eye-slash': passwordVisible }" (click)="togglePasswordVisibility()"></i>
                 </div>
-                <span *ngIf="password?.invalid && password?.errors?.['required']" class="vlaid text-danger">Password is required</span>
+                <!-- <span *ngIf="password?.invalid && password?.errors?.['required']" class="vlaid text-danger">Password is required</span> -->
               </div>
               <button type="submit" [disabled]="login.invalid" class="btn btn-primary">Login</button>
             </form>
+            <b class="text-right"><a class="btn btn-link">Forgot Password?</a></b>
+
           </div>
         </div>
       </div>
@@ -38,7 +40,6 @@
     <div class="row justify-content-center mt-3">
       <div class="col-md-6 text-center">
         <p>If you don't have an account, click <button type="button" class="btn btn-link" (click)="toggleLogin()">here</button> to Register.</p>
-        <b>Forgot Password <a>Reset Password</a></b>
       </div>
     </div>
   </div>

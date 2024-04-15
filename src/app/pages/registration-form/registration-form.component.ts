@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
@@ -87,6 +86,5 @@ export class RegistrationFormComponent implements OnInit {
 
   navigateToSignup() {
     this.router.navigate(['/registration-form']);
-    // Handle navigation to the signup page, if needed
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule} from '@angular/forms';
@@ -18,8 +18,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   login!: FormGroup;
+  resetPassword!: FormGroup;
   isFormChanged: boolean = false;
-  passwordVisible: boolean = false; // Add property to track password visibility
+  passwordVisible: boolean = false; 
+  loginvisible: boolean = true;
+  resetPasswordVisible: boolean = false;
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
@@ -31,10 +34,40 @@ export class LoginComponent implements OnInit {
   initializeForm(): void {
     this.login = this.fb.group({
       loginMethod: ['username', Validators.required], // Default to 'username'
-      username: ['', Validators.required],
+      username: '', // Initialize as empty
       email: ['', Validators.email],
       password: ['', Validators.required]
     });
+    this.resetPassword = this.fb.group({
+      resetEmail: ['', [Validators.required, Validators.email]],
+      newPassword: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
+
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const newPassword = formGroup.get('newPassword')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    if (newPassword !== confirmPassword) {
+      formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
+    } else {
+      formGroup.get('confirmPassword')?.setErrors(null);
+    }
+  }
+
+  resetPasswordSubmit() {
+    if (this.resetPassword.valid) {
+      // Reset password logic here
+      alert('Password reset successful');
+      console.log('Password reset successful');
+      // Reset the form
+      this.resetPassword.reset();
+      this.resetPasswordVisible = false;
+    } else {
+      alert('Please fill out all required fields correctly.');
+      console.error('Password reset failed');
+    }
   }
 
   subscribeToFormChanges(): void {
@@ -57,8 +90,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  toggleResetPasswordForm(event: Event): void {
+    event.preventDefault();
+    this.resetPasswordVisible = !this.resetPasswordVisible;
+    this.loginvisible = !this.loginvisible;
+
+  }
   toggleLogin() {
-    alert('Redirecting to Registration page');
+    this.resetPasswordVisible = false; // Hide reset password form
+    alert('Redirecting to Registration form')
     this.router.navigate(['/registration-form']);
   }
 
@@ -68,7 +108,6 @@ export class LoginComponent implements OnInit {
 
   navigateToSignup() {
     this.router.navigate(['/registration-form']);
-    // Handle navigation to the signup page, if needed
   }
 
   // Method to toggle password visibility

@@ -1,9 +1,10 @@
+import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
+import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'app-registration-form',
     standalone: true,

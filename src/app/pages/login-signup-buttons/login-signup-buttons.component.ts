@@ -2,8 +2,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-login-signup-buttons',
-  standalone: true,
-  imports: [],
   templateUrl: './login-signup-buttons.component.html',
   styleUrl: './login-signup-buttons.component.css'
 })

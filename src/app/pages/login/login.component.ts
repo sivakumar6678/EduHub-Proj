@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service'; // Import the service
-import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [LoginSignupButtonsComponent, ReactiveFormsModule, CommonModule]
 })
 export class LoginComponent implements OnInit {
 
@@ -24,11 +19,12 @@ export class LoginComponent implements OnInit {
   loginvisible: boolean = true;
   errorMessage: string = '';
   successMessage: string = '';
+  // password: any;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthenticationService, // Inject AuthenticationService
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +46,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+
+get email() {
+    return this.loginForm.get('email');
+  }
+  get password() {
+    return this.loginForm.get('password');
+  }
+
   subscribeToFormChanges(): void {
     this.loginForm.valueChanges.subscribe(() => {
       this.isLoginFormChanged = true;
@@ -62,21 +66,15 @@ export class LoginComponent implements OnInit {
 
   loginUser(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
-        (response) => {
-          console.log("RESPONSE DATA " + JSON.stringify(response))
-          if (response.responseCode === '200') {
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("username", this.loginForm.get('username')?.value);
-            this.router.navigate(["/dashboard"]);
-          }
-          window.alert(response.responseMsg);
-        },
-        (error) => {
-          console.log("An Error Occurred " + error);
-          this.errorMessage = 'Invalid username or password.';
-        }
-      );
+      let login = {
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+      this.http.post('http://localhost:8085/api/', login, { responseType: 'text' }).subscribe((response: any) => {
+        console.log(response);
+        this.router.navigate(['/dashboard']);
+      });
+      
     } else {
       this.errorMessage = 'Please fill out all required fields.';
     }
@@ -84,15 +82,20 @@ export class LoginComponent implements OnInit {
 
   resetPassword(): void {
     if (this.resetPasswordForm.valid) {
-      this.authService.resetPassword(this.resetPasswordForm.value).subscribe(
-        (response) => {
-          this.successMessage = 'Password reset successful. Check your email for further instructions.';
-          this.resetPasswordForm.reset();
-        },
-        (error) => {
-          this.errorMessage = 'Password reset failed. Please try again later.';
-        }
-      );
+      this.successMessage = 'Password reset link sent to email address.';
+      this.resetPasswordForm.reset();
+      this.isResetPasswordFormChanged = false;
+      setTimeout(() => {
+        this.resetPasswordVisible = false;
+      }, 3000);
+      let resetpassword = {
+      email: this.resetPasswordForm.get('email')?.value,
+      password: this.resetPasswordForm.get('password')?.value
+      };
+      this.http.post('http://localhost:8085/api/', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
+        console.log(response);
+        this.router.navigate(['/login']);
+      });
     } else {
       this.errorMessage = 'Please fill out all required fields correctly.';
     }

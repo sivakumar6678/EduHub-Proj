@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RegistrationService } from '../services/registration.service'; // Assuming you have a service named 'RegistrationService'
-import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-form',
-  standalone: true,
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.css'],
-  imports: [LoginSignupButtonsComponent,ReactiveFormsModule,CommonModule]
 })
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
   isFormChanged: boolean = false;
 
-  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router,private http:HttpClient) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -63,17 +58,15 @@ export class RegistrationFormComponent implements OnInit {
 
   registerUser() {
     if (this.registrationForm.valid && this.passwordsMatch()) {
-      // Make API call to register user
-      this.registrationService.registerUser(this.registrationForm.value).subscribe(
-        (response) => {
-          alert('Registration successful');
-          console.log('Registration successful');
-        },
-        (error) => {
-          console.error('Registration failed', error);
-          alert('Registration failed');
-        }
-      );
+      let register = {
+        username: this.registrationForm.get('username')?.value,
+        email: this.registrationForm.get('email')?.value,
+        password: this.registrationForm.get('password')?.value
+      };
+      this.http.post('http://localhost:8085/api/', register,{responseType: 'text'}).subscribe((response: any) => {
+        console.log(response);
+        this.router.navigate(['/login']);
+      });
     } else {
       alert('Please fill out all required fields correctly and ensure passwords match.');
       console.error('Registration failed');

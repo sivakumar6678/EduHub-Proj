@@ -1,122 +1,129 @@
-
-// Working code without urls
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule} from '@angular/forms';
-import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HomeComponent } from "../home/home.component";
+import { HttpClient } from '@angular/common/http';
+import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-login',
-    standalone: true,
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        LoginSignupButtonsComponent,
-        HomeComponent
-    ]
+  selector: 'app-login',
+  standalone: true,
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [LoginSignupButtonsComponent,ReactiveFormsModule,CommonModule]
 })
 export class LoginComponent implements OnInit {
-  login!: FormGroup;
-  resetPassword!: FormGroup;
-  isFormChanged: boolean = false;
-  passwordVisible: boolean = false; 
-  loginvisible: boolean = true;
-  resetPasswordVisible: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  loginForm!: FormGroup;
+  resetPasswordForm!: FormGroup;
+  isLoginFormChanged: boolean = false;
+  isResetPasswordFormChanged: boolean = false;
+  passwordVisible: boolean = false;
+  resetPasswordVisible: boolean = false;
+  loginvisible: boolean = true;
+  errorMessage: string = '';
+  successMessage: string = '';
+password: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.initializeLoginForm();
+    this.initializeResetPasswordForm();
     this.subscribeToFormChanges();
   }
 
-  initializeForm(): void {
-    this.login = this.fb.group({
-      loginMethod: ['username', Validators.required], // Default to 'username'
-      username: '', // Initialize as empty
-      email: ['', Validators.email],
+  initializeLoginForm(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.resetPassword = this.fb.group({
-      resetEmail: ['', [Validators.required, Validators.email]],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
-
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const newPassword = formGroup.get('newPassword')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    if (newPassword !== confirmPassword) {
-      formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
-    } else {
-      formGroup.get('confirmPassword')?.setErrors(null);
-    }
-  }
-
-  resetPasswordSubmit() {
-    if (this.resetPassword.valid) {
-      // Reset password logic here
-      alert('Password reset successful');
-      console.log('Password reset successful');
-      // Reset the form
-      this.resetPassword.reset();
-      this.resetPasswordVisible = false;
-    } else {
-      alert('Please fill out all required fields correctly.');
-      console.error('Password reset failed');
-    }
+  initializeResetPasswordForm(): void {
+    this.resetPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
 
   subscribeToFormChanges(): void {
-    this.login.valueChanges.subscribe(() => {
-      this.isFormChanged = true;
+    this.loginForm.valueChanges.subscribe(() => {
+      this.isLoginFormChanged = true;
+    });
+
+    this.resetPasswordForm.valueChanges.subscribe(() => {
+      this.isResetPasswordFormChanged = true;
     });
   }
 
-  get password() {
-    return this.login.get('password');
+  loginUser(): void {
+    if (this.loginForm.valid) {
+      const credentials = {
+        username: this.loginForm.get('username')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+
+      this.http.post<any>('http://localhost:4200/api/login', credentials).subscribe({
+        next: (response) => {
+          console.log("RESPONSE DATA " + JSON.stringify(response))
+          if (response.responseCode === '200') {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("username", credentials.username);
+            this.router.navigate(["/dashboard"]);
+          }
+          window.alert(response.responseMsg);
+        },
+        error: (error) => {
+          console.log("An Error Occurred " + error);
+          this.errorMessage = 'Invalid username or password.';
+        }
+      });
+    } else {
+      this.errorMessage = 'Please fill out all required fields.';
+    }
   }
 
-  loginUser() {
-    
-    if (this.login.valid) {
-      alert('Login successful');
-      console.log('Login successful');
+  resetPassword(): void {
+    if (this.resetPasswordForm.valid) {
+      const formData = this.resetPasswordForm.value;
+      this.http.post<any>('http://localhost:4200/api/reset-password', formData).subscribe({
+        next: (response) => {
+          this.successMessage = 'Password reset successful. Check your email for further instructions.';
+          this.resetPasswordForm.reset();
+        },
+        error: (error) => {
+          this.errorMessage = 'Password reset failed. Please try again later.';
+        }
+      });
     } else {
-      alert('Please fill out all required fields correctly.');
-      console.error('Login failed');
+      this.errorMessage = 'Please fill out all required fields correctly.';
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
   toggleResetPasswordForm(event: Event): void {
     event.preventDefault();
-    this.resetPasswordVisible = !this.resetPasswordVisible;
-    this.loginvisible = !this.loginvisible;
-
+    this.resetPasswordForm.reset();
+    this.isResetPasswordFormChanged = false;
   }
+
   toggleLogin() {
-    this.resetPasswordVisible = false; // Hide reset password form
-    alert('Redirecting to Registration form')
     this.router.navigate(['/registration-form']);
-  }
-
-  navigateToLogin() {
-    this.router.navigate(['/login']); // Navigate to the login route
-  }
-
-  navigateToSignup() {
-    this.router.navigate(['/registration-form']);
-  }
-
-  // Method to toggle password visibility
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
   }
 }

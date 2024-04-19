@@ -1,27 +1,24 @@
-import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RegistrationService } from '../services/registration.service'; // Assuming you have a service named 'RegistrationService'
+import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-@Component({
-    selector: 'app-registration-form',
-    standalone: true,
-    templateUrl: './registration-form.component.html',
-    styleUrls: ['./registration-form.component.css'],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        LoginSignupButtonsComponent
-    ]
-})
+import { Router } from '@angular/router';
 
+@Component({
+  selector: 'app-registration-form',
+  standalone: true,
+  templateUrl: './registration-form.component.html',
+  styleUrls: ['./registration-form.component.css'],
+  imports: [LoginSignupButtonsComponent,ReactiveFormsModule,CommonModule]
+})
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
-  isFormChanged: boolean = false; 
+  isFormChanged: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router) { }
+
   ngOnInit(): void {
     this.initializeForm();
     this.subscribeToFormChanges();
@@ -63,29 +60,34 @@ export class RegistrationFormComponent implements OnInit {
     const confirmPassword = this.registrationForm.get('confirmPassword')?.value;
     return password === confirmPassword; // Use strict comparison (===)
   }
-  
 
   registerUser() {
     if (this.registrationForm.valid && this.passwordsMatch()) {
-      alert('Registration successful');
-      console.log('Registration successful');
+      // Make API call to register user
+      this.registrationService.registerUser(this.registrationForm.value).subscribe(
+        (response) => {
+          alert('Registration successful');
+          console.log('Registration successful');
+        },
+        (error) => {
+          console.error('Registration failed', error);
+          alert('Registration failed');
+        }
+      );
     } else {
       alert('Please fill out all required fields correctly and ensure passwords match.');
       console.error('Registration failed');
     }
   }
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
+  }
 
-  toggleLogin() {
-    alert('Redirecting to login page');
+  navigateToLogin() {
     this.router.navigate(['/login']);
   }
 
-
-  navigateToLogin() {
-    this.router.navigate(['/login']); // Navigate to the login route
-  }
-
-  navigateToSignup() {
+  toggleLogin() {
     this.router.navigate(['/registration-form']);
   }
 }

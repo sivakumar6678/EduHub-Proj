@@ -1,6 +1,16 @@
-/* Remove unnecessary styles */
+.blur-background {
+  background-image: url('/assets/bg_background.png');
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  /* display: flex; */
+  justify-content: center;
+  /* align-items: center; */
+}
 
-.container .register-form {
+.register-form {
+  margin-top:12vh;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
@@ -17,17 +27,13 @@
 
 .text-danger {
   font-size: 0.9em;
+  color: red; /* Added color red for consistency */
 }
-
 
 .btn-link {
   font-weight: bold;
 }
 
-.text-danger {
-  color: red;
-}
-
-.login-forms h1{
+.login-forms h1 {
   font-size: 2em;
 }

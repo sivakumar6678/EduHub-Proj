@@ -1,0 +1,36 @@
+
+.header {
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--white);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 9%;
+}
+
+.header .logo {
+  font-size: 2.5rem;
+  font-weight: bolder;
+  color: var(--black);
+}
+
+.header .logo i {
+  color: var(--primary-color);
+  padding-right: .5rem;
+}
+
+.header .navbar a {
+  font-size: 1.7rem;
+  color: var(--black);
+  margin: 0 1rem;
+  padding-block: 1rem;
+}
+
+
+
+
+

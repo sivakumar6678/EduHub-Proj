@@ -1,8 +1,16 @@
 .login-form {
+  margin-top: 12vh;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(100px);
   padding: 20px;
+}
+.blur-background {
+  background-image: url('/assets/bg_background.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
 }
 
 .login-forms h1{

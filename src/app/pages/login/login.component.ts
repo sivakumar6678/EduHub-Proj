@@ -4,17 +4,19 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule} from '@angular/forms';
 import { LoginSignupButtonsComponent } from "../login-signup-buttons/login-signup-buttons.component";
 import { Router } from '@angular/router';
+import { HomeComponent } from "../home/home.component";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    LoginSignupButtonsComponent
-  ]
+    selector: 'app-login',
+    standalone: true,
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        LoginSignupButtonsComponent,
+        HomeComponent
+    ]
 })
 export class LoginComponent implements OnInit {
   login!: FormGroup;
@@ -81,6 +83,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser() {
+    
     if (this.login.valid) {
       alert('Login successful');
       console.log('Login successful');

@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
 
   resetPasswordSubmit() {
     if (this.resetPassword.valid) {
-      // Reset password logic here
       alert('Password reset successful');
       console.log('Password reset successful');
       // Reset the form
@@ -103,14 +102,13 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToLogin() {
-    this.router.navigate(['/login']); // Navigate to the login route
+    this.router.navigate(['/login']); 
   }
 
   navigateToSignup() {
     this.router.navigate(['/registration-form']);
   }
 
-  // Method to toggle password visibility
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthenticationService } from '../services/authentication.service'; // Import the service
 import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [LoginSignupButtonsComponent,ReactiveFormsModule,CommonModule]
+  imports: [LoginSignupButtonsComponent, ReactiveFormsModule, CommonModule]
 })
 export class LoginComponent implements OnInit {
 
@@ -24,11 +24,10 @@ export class LoginComponent implements OnInit {
   loginvisible: boolean = true;
   errorMessage: string = '';
   successMessage: string = '';
-password: any;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthenticationService, // Inject AuthenticationService
     private router: Router
   ) { }
 
@@ -63,26 +62,21 @@ password: any;
 
   loginUser(): void {
     if (this.loginForm.valid) {
-      const credentials = {
-        username: this.loginForm.get('username')?.value,
-        password: this.loginForm.get('password')?.value
-      };
-
-      this.http.post<any>('http://localhost:4200/api/login', credentials).subscribe({
-        next: (response) => {
+      this.authService.login(this.loginForm.value).subscribe(
+        (response) => {
           console.log("RESPONSE DATA " + JSON.stringify(response))
           if (response.responseCode === '200') {
             localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("username", credentials.username);
+            localStorage.setItem("username", this.loginForm.get('username')?.value);
             this.router.navigate(["/dashboard"]);
           }
           window.alert(response.responseMsg);
         },
-        error: (error) => {
+        (error) => {
           console.log("An Error Occurred " + error);
           this.errorMessage = 'Invalid username or password.';
         }
-      });
+      );
     } else {
       this.errorMessage = 'Please fill out all required fields.';
     }
@@ -90,16 +84,15 @@ password: any;
 
   resetPassword(): void {
     if (this.resetPasswordForm.valid) {
-      const formData = this.resetPasswordForm.value;
-      this.http.post<any>('http://localhost:4200/api/reset-password', formData).subscribe({
-        next: (response) => {
+      this.authService.resetPassword(this.resetPasswordForm.value).subscribe(
+        (response) => {
           this.successMessage = 'Password reset successful. Check your email for further instructions.';
           this.resetPasswordForm.reset();
         },
-        error: (error) => {
+        (error) => {
           this.errorMessage = 'Password reset failed. Please try again later.';
         }
-      });
+      );
     } else {
       this.errorMessage = 'Please fill out all required fields correctly.';
     }

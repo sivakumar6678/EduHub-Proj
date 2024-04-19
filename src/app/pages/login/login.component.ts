@@ -1,3 +1,6 @@
+// Added url for backend 
+// getting error due to didnt include backend
+
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -63,16 +66,16 @@ export class LoginComponent implements OnInit {
   resetPasswordSubmit() {
     if (this.resetPassword.valid) {
       this.authService.resetPassword(this.resetPassword.value).subscribe(
-        // response => {
-        //   alert('Password reset successful');
-        //   console.log('Password reset successful');
-        //   this.resetPassword.reset();
-        //   this.resetPasswordVisible = false;
-        // },
-        // error => {
-        //   alert('An error occurred while resetting password.');
-        //   console.error('Password reset failed:', error);
-        // }
+        response => {
+          alert('Password reset successful');
+          console.log('Password reset successful');
+          this.resetPassword.reset();
+          this.resetPasswordVisible = false;
+        },
+        error => {
+          alert('An error occurred while resetting password.');
+          console.error('Password reset failed:', error);
+        }
       );
     } else {
       alert('Please fill out all required fields correctly.');
@@ -93,16 +96,16 @@ export class LoginComponent implements OnInit {
   loginUser() {
     if (this.login.valid) {
       this.authService.login(this.login.value).subscribe(
-        // response => {
-        //   alert('Login successful');
-        //   console.log('Login successful');
-        //   // Optionally navigate to another page after successful login
-        //   this.router.navigate(['/dashboard']);
-        // },
-        // error => {
-        //   alert('Invalid username or password.');
-        //   console.error('Login failed:', error);
-        // }
+        response => {
+          alert('Login successful');
+          console.log('Login successful');
+          // Optionally navigate to another page after successful login
+          this.router.navigate(['/dashboard']);
+        },
+        error => {
+          alert('Invalid username or password.');
+          console.error('Login failed:', error);
+        }
       );
     } else {
       alert('Please fill out all required fields correctly.');

@@ -7,9 +7,7 @@
           <div *ngIf="formState === 'login'">
             <h1 class="text-center mb-4 mt-3">Login</h1>
             <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="shadow p-3 mb-3 bg-white rounded">
-            
               <div class="mb-3">
-              
                 <label  for="email" class="form-label">Email</label>
                 <input  type="email" id="email" formControlName="email" class="form-control">
               </div>
@@ -17,8 +15,7 @@
                 <label for="password" class="form-label">Password</label>
                 <div class="password-input-group">
                   <input type="{{ passwordVisible ? 'text' : 'password' }}" id="password" formControlName="password" class="form-control">
-                  <i class="password-toggle-icon fas fa-eye" [ngClass]="{ 'fa-eye': !passwordVisible, 'fa-eye-slash': passwordVisible }" (click)="togglePasswordVisibility()"></i>
-
+                  <i class="password-toggle-icon fas" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
                 </div>
                 <span *ngIf="password?.invalid && password?.touched" class="text-danger">Password is required</span>
               </div>
@@ -31,6 +28,8 @@
               <div class="mb-3">
                 <label for="resetEmail" class="form-label">Email</label>
                 <input type="email" id="resetEmail" formControlName="resetEmail" class="form-control">
+                <span *ngIf="resetEmail?.invalid && resetEmail?.touched" class="text-danger">Email is required</span>
+                <span *ngIf="resetEmail?.invalid && resetEmail?.errors?.['resetEmail'] && resetEmail?.touched" class="text-danger">Invalid email format</span>
               </div>
               <div class="mb-3">
                 <label for="newPassword" class="form-label">New Password</label>
@@ -39,7 +38,9 @@
               <div class="mb-3">
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
                 <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
-                <span *ngIf="resetPasswordForm.controls['confirmPassword'].errors?.['passwordMismatch']" class="text-danger">Passwords do not match</span>
+                <!-- <span *ngIf="resetPasswordForm.controls['confirmPassword'].errors?.['passwordMismatch']" class="text-danger">Passwords do not match</span> -->
+                <span *ngIf="!passwordsMatch() && confirmPassword?.touched" class="text-danger">Passwords must match</span>
+
               </div>
               <button type="submit" [disabled]="resetPasswordForm.invalid" class="btn btn-primary">Reset Password</button>
             </form>

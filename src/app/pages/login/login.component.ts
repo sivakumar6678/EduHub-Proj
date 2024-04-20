@@ -54,7 +54,9 @@ export class LoginComponent implements OnInit {
 
   initializeResetPasswordForm(): void {
     this.resetPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      resetEmail: ['', [Validators.required, Validators.email]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -64,6 +66,20 @@ export class LoginComponent implements OnInit {
   }
   get password() {
     return this.loginForm.get('password');
+  }
+  get resetEmail() {
+    return this.resetPasswordForm.get('resetEmail');
+  }
+  get newPassword() {
+    return this.resetPasswordForm.get('newPassword');
+  }
+  get confirmPassword() {
+    return this.resetPasswordForm.get('confirmPassword');
+  }
+  passwordsMatch(): boolean {
+    const password = this.resetPasswordForm.get('newPassword')?.value;
+    const confirmPassword = this.resetPasswordForm.get('confirmPassword')?.value;
+    return password === confirmPassword; // Use strict comparison (===)
   }
 
   subscribeToFormChanges(): void {
@@ -85,7 +101,8 @@ export class LoginComponent implements OnInit {
           this.resetPasswordVisible = false;
         }, 3000);
         let resetpassword = {
-          email: this.resetPasswordForm.get('email')?.value,
+          resetEmail: this.resetPasswordForm.get('resetEmail')?.value,
+          newPassword: this.resetPasswordForm.get('newPassword')?.value
         };
         this.http.post('http://localhost:8085/api/reset-password', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
           console.log(response);

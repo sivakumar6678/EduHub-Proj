@@ -1,18 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, RouterOutlet } from '@angular/router';
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
+import { HomeComponent } from '../home/home.component';
+import { LoginComponent } from '../login/login.component';
+import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.css'],
-})
+  standalone:true,
+  imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
+    HeaderComponent, FooterComponent, HomeComponent,CommonModule,ReactiveFormsModule,HttpClientModule
+] })
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
   isFormChanged: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router,private http:HttpClient) { }
+  constructor(private fb:FormBuilder,private router: Router,private http:HttpClient) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -57,20 +69,21 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   registerUser() {
-    if (this.registrationForm.valid && this.passwordsMatch()) {
-      let register = {
-        username: this.registrationForm.get('username')?.value,
-        email: this.registrationForm.get('email')?.value,
-        password: this.registrationForm.get('password')?.value
-      };
-      this.http.post('http://localhost:8085/api/', register,{responseType: 'text'}).subscribe((response: any) => {
-        console.log(response);
-        this.router.navigate(['/login']);
-      });
-    } else {
-      alert('Please fill out all required fields correctly and ensure passwords match.');
-      console.error('Registration failed');
-    }
+    // if (this.registrationForm.valid && this.passwordsMatch()) {
+    //   let register = {
+    //     username: this.registrationForm.get('username')?.value,
+    //     email: this.registrationForm.get('email')?.value,
+    //     password: this.registrationForm.get('password')?.value
+    //   };
+    //   // this.http.post('http://localhost:8085/api/', register,{responseType: 'text'}).subscribe((response: any) => {
+    //   //   console.log(response);
+    //   //   this.router.navigate(['/login']);
+    //   // });
+    // } else {
+    //   alert('Please fill out all required fields correctly and ensure passwords match.');
+    //   console.error('Registration failed');
+    // }
+    alert("success");
   }
   navigateToSignup() {
     this.router.navigate(['/signup']);
@@ -81,6 +94,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   toggleLogin() {
-    this.router.navigate(['/registration-form']);
+    alert('Redirecting to login form')
+    this.router.navigate(['/login']);
   }
 }

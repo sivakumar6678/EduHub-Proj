@@ -2,11 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
+import { HomeComponent } from '../home/home.component';
+import { RegistrationFormComponent } from '../registration-form/registration-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  standalone:true,
+  imports:[LoginSignupButtonsComponent,HeaderComponent,FooterComponent,HomeComponent,DashboardComponent,RegistrationFormComponent,HttpClientModule,CommonModule,ReactiveFormsModule]
 })
 export class LoginComponent implements OnInit {
 
@@ -35,7 +45,7 @@ export class LoginComponent implements OnInit {
 
   initializeLoginForm(): void {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -47,7 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-get email() {
+  get email() {
     return this.loginForm.get('email');
   }
   get password() {
@@ -83,7 +93,7 @@ get email() {
   resetPassword(): void {
     if (this.resetPasswordForm.valid) {
       this.successMessage = 'Password reset link sent to email address.';
-      this.resetPasswordForm.reset();
+      // this.resetPasswordForm.reset();
       this.isResetPasswordFormChanged = false;
       setTimeout(() => {
         this.resetPasswordVisible = false;
@@ -106,7 +116,7 @@ get email() {
   }
 
   navigateToSignup() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/registration-form']);
   }
 
   navigateToLogin() {
@@ -115,11 +125,12 @@ get email() {
 
   toggleResetPasswordForm(event: Event): void {
     event.preventDefault();
-    this.resetPasswordForm.reset();
-    this.isResetPasswordFormChanged = false;
+    this.resetPasswordVisible = !this.resetPasswordVisible;
+    this.loginvisible = false;
   }
 
   toggleLogin() {
+    alert('Redirecting to Reigistration form')
     this.router.navigate(['/registration-form']);
   }
 }

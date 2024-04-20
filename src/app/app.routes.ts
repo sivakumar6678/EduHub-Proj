@@ -7,7 +7,7 @@ import { LoginSignupButtonsComponent } from './pages/login-signup-buttons/login-
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,7 +21,7 @@ export const routes: Routes = [
 ];
 @NgModule({
 
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes),FontAwesomeModule],
   
     exports: [RouterModule]
   

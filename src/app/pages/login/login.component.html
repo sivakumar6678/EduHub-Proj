@@ -4,7 +4,7 @@
       <div class="login-form">
         <div class="login-forms">
           <app-login-signup-buttons (login)="navigateToLogin()" (signup)="navigateToSignup()"></app-login-signup-buttons>
-          <div *ngIf="loginvisible">
+          <div *ngIf="formState === 'login'">
             <h1 class="text-center mb-4 mt-3">Login</h1>
             <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="shadow p-3 mb-3 bg-white rounded">
             
@@ -18,13 +18,14 @@
                 <div class="password-input-group">
                   <input type="{{ passwordVisible ? 'text' : 'password' }}" id="password" formControlName="password" class="form-control">
                   <i class="password-toggle-icon fas fa-eye" [ngClass]="{ 'fa-eye': !passwordVisible, 'fa-eye-slash': passwordVisible }" (click)="togglePasswordVisibility()"></i>
+
                 </div>
                 <span *ngIf="password?.invalid && password?.touched" class="text-danger">Password is required</span>
               </div>
               <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
             </form>
           </div>
-          <div *ngIf="passwordVisible">
+          <div *ngIf="formState === 'reset'">
             <h2 class="text-center mb-4 mt-3">Reset Password</h2>
             <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="shadow p-3 mb-3 bg-white rounded">
               <div class="mb-3">
@@ -44,9 +45,9 @@
             </form>
           </div>
           <div class="text-right">
-            <a href="#" class="btn btn-link" (click)="toggleResetPasswordForm($event); $event.preventDefault()">
-              {{ resetPasswordVisible ? 'Login Form' : 'Forgot Password ?' }}
-            </a>
+            <button type="button" class="btn btn-link" (click)="toggleFormState($event)">
+              {{ formState === 'login'? 'Forgot Password?' : 'Login Form' }}
+            </button>
           </div>
           <div class="row justify-content-center">
             <div class="col text-center">

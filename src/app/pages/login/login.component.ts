@@ -11,12 +11,13 @@ import { RegistrationFormComponent } from '../registration-form/registration-for
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone:true,
-  imports:[LoginSignupButtonsComponent,HeaderComponent,FooterComponent,HomeComponent,DashboardComponent,RegistrationFormComponent,HttpClientModule,CommonModule,ReactiveFormsModule]
+  imports:[LoginSignupButtonsComponent,HeaderComponent,FooterComponent,HomeComponent,DashboardComponent,RegistrationFormComponent,HttpClientModule,CommonModule,ReactiveFormsModule,FontAwesomeModule]
 })
 export class LoginComponent implements OnInit {
 
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   // password: any;
+  formState: 'login' | 'reset' = 'login';
 
   constructor(
     private fb: FormBuilder,
@@ -74,40 +76,41 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  loginUser(): void {
-    if (this.loginForm.valid) {
-      let login = {
-        email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value
-      };
-      this.http.post('http://localhost:8085/api/', login, { responseType: 'text' }).subscribe((response: any) => {
-        console.log(response);
-        this.router.navigate(['/dashboard']);
-      });
-      
-    } else {
-      this.errorMessage = 'Please fill out all required fields.';
+  resetPassword(): void {
+    if (this.formState === 'reset') {
+      if (this.resetPasswordForm.valid) {
+        this.successMessage = 'Password reset link sent to email address.';
+        this.isResetPasswordFormChanged = false;
+        setTimeout(() => {
+          this.resetPasswordVisible = false;
+        }, 3000);
+        let resetpassword = {
+          email: this.resetPasswordForm.get('email')?.value,
+        };
+        this.http.post('http://localhost:8085/api/reset-password', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
+          console.log(response);
+          this.router.navigate(['/login']);
+        });
+      } else {
+        this.errorMessage = 'Please fill out all required fields correctly.';
+      }
     }
   }
-
-  resetPassword(): void {
-    if (this.resetPasswordForm.valid) {
-      this.successMessage = 'Password reset link sent to email address.';
-      // this.resetPasswordForm.reset();
-      this.isResetPasswordFormChanged = false;
-      setTimeout(() => {
-        this.resetPasswordVisible = false;
-      }, 3000);
-      let resetpassword = {
-      email: this.resetPasswordForm.get('email')?.value,
-      password: this.resetPasswordForm.get('password')?.value
-      };
-      this.http.post('http://localhost:8085/api/', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
-        console.log(response);
-        this.router.navigate(['/login']);
-      });
-    } else {
-      this.errorMessage = 'Please fill out all required fields correctly.';
+  
+  loginUser(): void {
+    if (this.formState === 'login') {
+      if (this.loginForm.valid) {
+        let login = {
+          email: this.loginForm.get('email')?.value,
+          password: this.loginForm.get('password')?.value
+        };
+        this.http.post('http://localhost:8085/api/login', login, { responseType: 'text' }).subscribe((response: any) => {
+          console.log(response);
+          this.router.navigate(['/dashboard']);
+        });
+      } else {
+        this.errorMessage = 'Please fill out all required fields.';
+      }
     }
   }
 
@@ -123,10 +126,9 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  toggleResetPasswordForm(event: Event): void {
-    event.preventDefault();
-    this.resetPasswordVisible = !this.resetPasswordVisible;
-    this.loginvisible = false;
+  toggleFormState($event: Event): void {
+    $event.preventDefault();
+    this.formState = this.formState === 'login'? 'reset' : 'login';
   }
 
   toggleLogin() {

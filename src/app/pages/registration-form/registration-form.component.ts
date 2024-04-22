@@ -86,7 +86,7 @@ export class RegistrationFormComponent implements OnInit {
     alert("success");
   }
   navigateToSignup() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/registration-form']);
   }
 
   navigateToLogin() {

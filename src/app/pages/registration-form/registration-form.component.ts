@@ -33,7 +33,7 @@ export class RegistrationFormComponent implements OnInit {
 
   initializeForm(): void {
     this.registrationForm = this.fb.group({
-      username: ['', Validators.required],
+      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
@@ -46,8 +46,8 @@ export class RegistrationFormComponent implements OnInit {
     });
   }
 
-  get username() {
-    return this.registrationForm.get('username');
+  get userName() {
+    return this.registrationForm.get('userName');
   }
 
   get email() {
@@ -69,21 +69,20 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   registerUser() {
-    // if (this.registrationForm.valid && this.passwordsMatch()) {
-    //   let register = {
-    //     username: this.registrationForm.get('username')?.value,
-    //     email: this.registrationForm.get('email')?.value,
-    //     password: this.registrationForm.get('password')?.value
-    //   };
-    //   // this.http.post('http://localhost:8085/api/', register,{responseType: 'text'}).subscribe((response: any) => {
-    //   //   console.log(response);
-    //   //   this.router.navigate(['/login']);
-    //   // });
-    // } else {
-    //   alert('Please fill out all required fields correctly and ensure passwords match.');
-    //   console.error('Registration failed');
-    // }
-    alert("success");
+    if (this.registrationForm.valid && this.passwordsMatch()) {
+      let register = {
+        userName: this.registrationForm.get('userName')?.value,
+        email: this.registrationForm.get('email')?.value,
+        password: this.registrationForm.get('password')?.value
+      };
+      this.http.post('http://localhost:8080/auth/signup', register,{responseType: 'text'}).subscribe((response: any) => {
+        console.log(response);
+        this.router.navigate(['/login']);
+      });
+    } else {
+      alert('Please fill out all required fields correctly and ensure passwords match.');
+      console.error('Registration failed');
+    }
   }
   navigateToSignup() {
     this.router.navigate(['/registration-form']);

@@ -7,16 +7,19 @@ import { LoginSignupButtonsComponent } from "./pages/login-signup-buttons/login-
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
-
+import { CommonModule } from '@angular/common';
+import { AuthenticationService } from './authentication.service';
+import { NgModule } from '@angular/core';
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
-      HeaderComponent, FooterComponent, HomeComponent
+      HeaderComponent, FooterComponent, HomeComponent,CommonModule
   ]  
 })
 export class AppComponent {
+
   title = 'EduHub';
-}
+  constructor(public authenticationService: AuthenticationService) { }}

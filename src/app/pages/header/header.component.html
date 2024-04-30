@@ -10,22 +10,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mr-5">
             <li class="nav-item">
-              <a class="nav-link" href="/home">Home</a>
+              <a class="nav-link" routerLink="/home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/home">About</a>
+              <a class="nav-link" routerLink="/about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" routerLink="/contact">Contact</a>
+            </li>
+            <li class="nav-item dropdown" *ngIf="authService.isLoggedIn()">
+              <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Select Course </a>
+              <div class="dropdown-menu ">
+                <li class="list-group-item list-group-item-action" *ngFor="let category of categories">
+                  {{ category[1] }}
+                </li>              
+              </div>
             </li>
           </ul>
           <ul class="navbar-nav ml-auto mr-5">
-            <li class="nav-item  bg-light">
-              <a class="nav-link " href="/login"> <span class="fa fa-user"></span>Login</a>  
+            <li class="nav-item bg-light" *ngIf="!authService.isLoggedIn()">
+              <a routerLink="/login">Login</a>
+            </li>
+            <li class="nav-item bg-light" *ngIf="authService.isLoggedIn()">
+              <a (click)="logout()">Logout</a>
             </li>
           </ul>
+          
+        </div>
       </div>
-    </div>
-  </nav>
-</div>
+    </nav>
+  </div>
 </header>

@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthenticationService } from '../../authentication.service';
+import { Injectable } from '@angular/core';
+import { error } from 'console';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -36,7 +39,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -104,7 +108,7 @@ export class LoginComponent implements OnInit {
           resetEmail: this.resetPasswordForm.get('resetEmail')?.value,
           newPassword: this.resetPasswordForm.get('newPassword')?.value
         };
-        this.http.post('http://localhost:8085/api/reset-password', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
+        this.http.post('http://localhost:8080/auth/reset-password', resetpassword, { responseType: 'text' }).subscribe((response: any) => {
           console.log(response);
           this.router.navigate(['/login']);
         });
@@ -121,10 +125,16 @@ export class LoginComponent implements OnInit {
           email: this.loginForm.get('email')?.value,
           password: this.loginForm.get('password')?.value
         };
-        this.http.post('http://localhost:8085/api/login', login, { responseType: 'text' }).subscribe((response: any) => {
+        this.http.post('http://localhost:8080/auth/login', login, { responseType: 'text' }).subscribe((response: any) => {
           console.log(response);
           this.router.navigate(['/dashboard']);
-        });
+          this.authService.setLoginStatus(true);
+        },
+        (error: any) => {
+          console.error('Login failed');
+          this.errorMessage = 'Invalid email or password.';
+        }
+      );
       } else {
         this.errorMessage = 'Please fill out all required fields.';
       }

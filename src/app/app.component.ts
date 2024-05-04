@@ -9,6 +9,7 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from './authentication.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 @Component({
     selector: 'app-root',
@@ -16,10 +17,11 @@ import { NgModule } from '@angular/core';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
-      HeaderComponent, FooterComponent, HomeComponent,CommonModule
+      HeaderComponent, FooterComponent, HomeComponent,CommonModule,FontAwesomeModule
   ]  
 })
 export class AppComponent {
 
   title = 'EduHub';
-  constructor(public authenticationService: AuthenticationService) { }}
+  constructor(public authenticationService: AuthenticationService) { }
+}

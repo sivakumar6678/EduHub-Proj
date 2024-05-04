@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router,NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,27 +16,33 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   imports:[RouterOutlet,FontAwesomeModule,CommonModule,RouterModule,HttpClientModule],
 })
 export class HeaderComponent {
+
+  
+
   categories: any[] = [];
+  showHeader: boolean = true;
 
   constructor(  public authService: AuthenticationService,  
-                private http: HttpClient
+                private http: HttpClient,
+                private router: Router
 
   ) { }
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:8080/auth/categories').subscribe(
-  (response: any[]) => {
-    this.categories = response.map(categoryString => categoryString.split(', '));
-    // console.log('categories:', this.categories);
-  },
-  (error) => {
-    console.error('Error fetching categories:', error);
-  }
-);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showHeader = !event.url.includes('/dashboard'); // Hide header on dashboard route
+      }
+    });
 
 }
+
+navigateToCourses(categoryId: number): void {
+  this.router.navigate(['/courses', categoryId]); // Navigate to CoursesComponent with categoryId
+}
+
 logout(): void {
-  // Logic to perform logout
   this.authService.setLoginStatus(false);
 }
+
 }

@@ -429,9 +429,10 @@ header .flex .profile{
 
 /* Tutor styles */
 .courses .box-container .box .tutor {
-   display: flex;
+   display: block;
    align-items: center;
-   gap: 1.5rem;
+   gap: 15rem;
+   padding: 0 1rem;
    margin-bottom: 2rem;
 }
 
@@ -441,7 +442,17 @@ header .flex .profile{
    border-radius: 50%;
    object-fit: cover;
 }
-
+.courses .coursecontent{
+   min-width: 25vh;
+   margin:1vh;
+   padding:1vh;
+   border: 1px solid blue;
+   background: whitesmoke;
+}
+.courses .coursecontent ul li{
+   
+   font-size: 1.5 rem;
+}
 .courses .box-container .box .tutor h3 {
    font-size: 1.8rem; /* Adjust font size as needed */
    margin-bottom: .2rem;
@@ -451,15 +462,18 @@ header .flex .profile{
    font-size: 1.3rem; /* Adjust font size as needed */
    color: var(--light-color);
 }
-.courses .box-container
+.courses 
  {
-   display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr)); /* Adjust min and max width as needed */
-   gap: 2rem; /* Adjust gap as needed */
-   justify-content: center;
-   align-items: stretch; /* Adjust alignment as needed */
+   background: aquamarine;
 }
-
+.card-title.title{
+   margin:1rem;
+   padding:1rem;
+   font-size: 2rem;
+   color: var(--black);
+   text-align: center;
+   background: antiquewhite;
+}
 
 
 .user-profile .info{

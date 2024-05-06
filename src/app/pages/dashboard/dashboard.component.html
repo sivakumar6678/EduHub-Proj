@@ -58,14 +58,14 @@
     </section>
     <section class="courses">
       <h1 class="heading">Our Courses</h1>
-      <div class="container">
+      <div class="box-container">
         <div class="row box">
           <div class="col-md-4" *ngFor="let course of courses">
             <div class="card mb-4 shadow-sm">
               <div class="card-body tutor">
                 <h5 class="card-title title">{{ course.courseName }}</h5>
               <button class="btn btn-primary info " (click)="toggleCourseContent(course.courseId)">View Details</button>
-                <div *ngIf="course.showContent">
+                <div  class="coursecontent" *ngIf="course.showContent">
                   <h6>Course Content:</h6>
                   <ul>
                     <li *ngFor="let content of courseContent">

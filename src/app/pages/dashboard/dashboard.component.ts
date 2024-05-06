@@ -93,40 +93,40 @@ export class DashboardComponent implements OnInit {
 
 
 
-  // initializeDarkModeToggle(): void {
-  //   const toggleBtn = document.getElementById('toggle-btn');
+  initializeDarkModeToggle(): void {
+    const toggleBtn = document.getElementById('toggle-btn');
 
-  //   if (!toggleBtn) {
-  //     console.error("Toggle button not found");
-  //     return;
-  //   }
+    if (!toggleBtn) {
+      console.error("Toggle button not found");
+      return;
+    }
 
-  //   const body = document.body;
-  //   let darkMode = localStorage.getItem('dark-mode');
+    const body = document.body;
+    let darkMode = localStorage.getItem('dark-mode');
 
-  //   const enableDarkMode = () => {
-  //     toggleBtn.classList.replace('fa-sun', 'fa-moon');
-  //     body.classList.add('dark');
-  //     localStorage.setItem('dark-mode', 'enabled');
-  //   };
+    const enableDarkMode = () => {
+      toggleBtn.classList.replace('fa-sun', 'fa-moon');
+      body.classList.add('dark');
+      localStorage.setItem('dark-mode', 'enabled');
+    };
 
-  //   const disableDarkMode = () => {
-  //     toggleBtn.classList.replace('fa-moon', 'fa-sun');
-  //     body.classList.remove('dark');
-  //     localStorage.setItem('dark-mode', 'disabled');
-  //   };
+    const disableDarkMode = () => {
+      toggleBtn.classList.replace('fa-moon', 'fa-sun');
+      body.classList.remove('dark');
+      localStorage.setItem('dark-mode', 'disabled');
+    };
 
-  //   if (darkMode === 'enabled') {
-  //     enableDarkMode();
-  //   }
+    if (darkMode === 'enabled') {
+      enableDarkMode();
+    }
 
-  //   toggleBtn.addEventListener('click', () => {
-  //     darkMode = localStorage.getItem('dark-mode');
-  //     if (darkMode === 'disabled') {
-  //       enableDarkMode();
-  //     } else {
-  //       disableDarkMode();
-  //     }
-  //   });
-  // }
+    toggleBtn.addEventListener('click', () => {
+      darkMode = localStorage.getItem('dark-mode');
+      if (darkMode === 'disabled') {
+        enableDarkMode();
+      } else {
+        disableDarkMode();
+      }
+    });
+  }
 }

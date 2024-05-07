@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: 'registration-form', component: RegistrationFormComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'courses/:categoryId', component: CoursesComponent },
+  // { path: 'courses/:categoryId', component: CoursesComponent },
   {path: 'courses', component: CoursesComponent}
 ];
 

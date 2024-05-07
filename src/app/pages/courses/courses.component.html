@@ -1,24 +1,36 @@
-
-<!-- courses.component.html -->
-
 <div class="container">
-    <h1>Courses</h1>
-    <div class="row">
-      <div class="col-md-4" *ngFor="let course of courses">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ course.courseName }}</h5>
-            Add more course details here if needed
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
   
-  <div class="icons">
-    <i class=" 	fas fa-user"></i>
-     <div id="menu-btn" class="fas fa-star"></div>
-     <div id="user-btn" class="fas fa-user"></div>
-      <div id="search-btn" class="fas fa-search"></div>
-      <div id="toggle-btn" class="fas fa-sun"></div>
-   </div>
+  <section class="home-grid">
+    <h1 class="text-center text-bg bg-light p-2 rounded-pill">Select category of courses</h1>
+    <div class="category-dropdown dropdown">
+      <input type="text" class="dropdown-toggle form-control" data-toggle="dropdown" placeholder="Search Category" [(ngModel)]="searchTerm" (input)="filterCategories()">
+      <ul class="dropdown-menu category-list">
+        <li *ngFor="let category of filteredCategories" (click)="toggleCategory(category)">
+          {{ category[1] }}
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="courses">
+    <h1 class="heading">Our Courses</h1>
+    <div class="table-container">
+      <table class="table table-hover">
+        <tbody>
+          <tr *ngFor="let course of courses">
+            <td>{{ course.courseName }}</td>
+            <td><button class="btn btn-primary info float-right" data-toggle="modal" data-target="#myModal" (click)="toggleCourseContent(course.courseId)">Enroll</button></td>
+          </tr>
+        </tbody>
+      </table>
+     
+    </div>
+    <div class="more-btn">
+      <a href="/courses" class="inline-option-btn">View All Courses</a>
+    </div>
+    
+  </section>
+ 
+
+</div>

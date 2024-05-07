@@ -32,19 +32,34 @@
         <a href="/courses"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
       </nav>
     </div>
-    <section class="home-grid">
-      <h1 class="heading">Quick Options</h1>
-      <div class="box-container">
-        <div class="box">
-          <h3 class="title">Top Categories</h3>
-          <div class="flex">
-            <a *ngFor="let category of categories" (click)="navigateToCourses(category[0])">
-              <i class="fas fa-code"></i><span>{{ category[1] }}</span>
-            </a>
+
+    
+    <div class="col-md-4" *ngFor="let course of courses">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body tutor">
+          <h5 class="card-title title">{{ course.courseName }}</h5>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width.%]="course.progress" [attr.aria-valuenow]="course.progress" aria-valuemin="0" aria-valuemax="100">{{ course.progress }}%</div>
           </div>
-        </div>    
+          <div class="progress-input">
+            <input type="number" class="form-control" [(ngModel)]="course.progress" min="0" max="100" placeholder="Enter progress">
+          </div>
+          <button class="btn btn-primary info" (click)="toggleCourseContent(course.courseId)">View Details</button>
+          <div class="coursecontent" *ngIf="course.showContent">
+            <h6>Course Content:</h6>
+            <ul>
+              <li *ngFor="let content of courseContent">
+                <b>Title : </b>{{ content.contentTitle }} <br>
+                <b>Description : </b> {{ content.contentDescription }} <br>
+                <b>Content URL : </b> <a [href]="content.contentURL" target="_blank">{{ content.contentURL }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+    
+    
     <section class="courses">
       <h1 class="heading">Our Courses</h1>
       <div class="box-container">

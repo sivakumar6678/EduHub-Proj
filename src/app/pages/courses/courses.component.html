@@ -1,6 +1,4 @@
 <div class="container">
-
-  
   <section class="home-grid">
     <h1 class="text-center text-bg bg-light p-2 rounded-pill">Select category of courses</h1>
     <div class="category-dropdown dropdown">
@@ -20,17 +18,50 @@
         <tbody>
           <tr *ngFor="let course of courses">
             <td>{{ course.courseName }}</td>
+            <!-- Pass course ID to enrollCourse method -->
             <td><button class="btn btn-primary info float-right" data-toggle="modal" data-target="#myModal" (click)="toggleCourseContent(course.courseId)">Enroll</button></td>
-          </tr>
-        </tbody>
+          </tr></tbody>
       </table>
-     
     </div>
     <div class="more-btn">
       <a href="/courses" class="inline-option-btn">View All Courses</a>
     </div>
-    
-  </section>
- 
 
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title">Course Enrollment</h1>
+            <button type="button" class="close" data-dismiss="modal">×</button>
+          </div>
+          <div class="modal-body">
+            <div *ngFor="let course of courses">
+              <div class="coursecontent" *ngIf="course.showContent">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let content of courseContent">
+                      <td>{{ content.contentTitle }}</td>
+                      <td>{{ content.contentDescription }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="enroll-footer text-center">
+              <!-- Button to trigger enrollment -->
+              <button class="btn btn-primary" (click)="enrollCourse(selectedCourseId)">Enroll Course</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

@@ -5,19 +5,22 @@ import { AuthenticationService } from '../../authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CoursesComponent } from '../courses/courses.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   standalone:true,
-  imports:[HttpClientModule,CommonModule,RouterModule,CoursesComponent]
+  imports:[HttpClientModule,CommonModule,RouterModule,CoursesComponent,FormsModule]
 })
 export class DashboardComponent implements OnInit {
   categories: any[] = [];
-  courses: any[] = [];
+  courses: any[] = [
+    { courseId: 1, courseName: 'Course 1', progress: 0 },
+    { courseId: 2, courseName: 'Course 2', progress: 0 },
+    // Add more courses as needed
+  ];
   courseContent: any[] = [];
   constructor(
     private http: HttpClient,
@@ -26,67 +29,22 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchCategories();
     // this.initializeDarkModeToggle();
   }
-
-  fetchCategories(): void {
-    this.http.get<any[]>('http://localhost:8080/auth/categories').subscribe(
-      (response: any[]) => {
-        this.categories = response.map(categoryString => categoryString.split(', '));
-      },
-      (error) => {
-        console.error('Error fetching categories:', error);
-      }
-    );
-  }
-  fetchCourseContent(courseId: number): void {
-    this.http.get<any[]>(`http://localhost:8080/auth/course-content/${courseId}`).subscribe(
-      (response: any[]) => {
-        console.log(response); // Log the response to see its structure
-        this.courseContent = response;
-      },
-      (error) => {
-        console.error('Error fetching course content:', error);
-      }
-    );
-  }
-  
-  
-  
-
   toggleCourseContent(courseId: number): void {
-    // Set showContent to false for all courses
-    this.courses.forEach(course => {
-      course.showContent = false;
-    });
-  
-    const index = this.courses.findIndex(course => course.courseId === courseId);
-    if (index !== -1) {
-      this.courses[index].showContent = !this.courses[index].showContent;
-      if (this.courses[index].showContent) {
-        this.fetchCourseContent(courseId);
-      }
+    // Toggle visibility of course content
+    const course = this.courses.find(course => course.courseId === courseId);
+    if (course) {
+      course.showContent = !course.showContent;
     }
   }
+
+  
   
   
 
-  navigateToCourses(categoryId: number): void {
-    if (!categoryId) {
-      console.error('Invalid category ID');
-      return;
-    }
-    
-    this.http.get<any[]>(`http://localhost:8080/auth/${categoryId}`).subscribe(
-      (response: any[]) => {
-        this.courses = response;
-      },
-      (error) => {
-        console.error('Error fetching courses:', error);
-      }
-    );
-  }
+ 
+  
 
 
 

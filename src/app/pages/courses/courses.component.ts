@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { AuthenticationService } from '../../authentication.service';
 
 @Component({
   selector: 'app-courses',
@@ -20,16 +21,27 @@ export class CoursesComponent implements OnInit {
   searchTerm: string = '';
   selectedCourseId: number = 0;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.fetchCategories();
   }
-// for enrollment of courses
+
+  // for enrollment of courses
   enrollCourse(courseId: number): void {
-    const enrollmentDate = new Date(); // Get the current date
-    const apiUrl = `http://localhost:8080/auth/enroll?courseId=${courseId}&enrollmentDate=${enrollmentDate}`;
-    this.http.post<any>(apiUrl, {}).subscribe(
+    const enrollmentDate = new Date().toISOString(); // Get the current date
+    const apiUrl = `http://localhost:8080/api/enroll`;
+    const requestBody = {
+      courseId: courseId,
+      enrollmentDate: enrollmentDate
+    };
+
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.post<any>(apiUrl, requestBody, { headers: headers }).subscribe(
       (response) => {
         console.log('Enrolled successfully:', response);
       },
@@ -71,8 +83,8 @@ export class CoursesComponent implements OnInit {
       }
     );
   }
-// get the content of categories
 
+  // get the content of categories
   fetchCourseContent(courseId: number): void {
     this.http.get<any[]>(`http://localhost:8080/auth/course-content/${courseId}`).subscribe(
       (response: any[]) => {

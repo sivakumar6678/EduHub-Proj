@@ -128,6 +128,15 @@ export class LoginComponent implements OnInit {
         this.http.post('http://localhost:8080/auth/login', login, { responseType: 'text' }).subscribe((response: any) => {
           console.log(response);
           this.router.navigate(['/dashboard']);
+          const token = response.token;
+
+          // Store the token for further use
+
+          this.authService.setToken(token);
+
+          this.router.navigate(['/dashboard']);
+
+          this.authService.setLoginStatus(true);
           this.authService.setLoginStatus(true);
         },
         (error: any) => {

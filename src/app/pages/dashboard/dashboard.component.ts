@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class DashboardComponent implements OnInit {
   categories: any[] = [];
+  enrolledCourses: any[] = []; 
   courses: any[] = [
     { courseId: 1, courseName: 'Course 1', progress: 0 },
     { courseId: 2, courseName: 'Course 2', progress: 0 },
@@ -25,21 +26,44 @@ export class DashboardComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     // this.initializeDarkModeToggle();
+    this.fetchEnrolledCourses();
   }
   toggleCourseContent(courseId: number): void {
-    // Toggle visibility of course content
     const course = this.courses.find(course => course.courseId === courseId);
     if (course) {
       course.showContent = !course.showContent;
     }
   }
 
-  
+  fetchEnrolledCourses(): void {
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error('No token available');
+      return;
+    }
+
+    const apiUrl = 'http://localhost:8080/api/get-enrolled-courses';
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.get<any[]>(apiUrl, { headers }).subscribe(
+      (courses) => {
+        this.enrolledCourses = courses;
+      },
+      (error) => {
+        console.error('Error fetching enrolled courses:', error);
+      }
+    );
+  }
+
   
   
 

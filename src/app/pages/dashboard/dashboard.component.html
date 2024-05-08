@@ -59,7 +59,14 @@
       </div>
     </div>
     
-    
+<section class="enrolled-courses">
+  <h2>Enrolled Courses</h2>
+  <div class="course-list">
+    <div *ngFor="let course of enrolledCourses" class="course-item">
+      <h3>{{ course.courseName }}</h3>
+    </div>
+  </div>
+</section>
     <section class="courses">
       <h1 class="heading">Our Courses</h1>
       <div class="box-container">

@@ -121,34 +121,39 @@ export class LoginComponent implements OnInit {
   loginUser(): void {
     if (this.formState === 'login') {
       if (this.loginForm.valid) {
-        let login = {
+        const login = {
           email: this.loginForm.get('email')?.value,
           password: this.loginForm.get('password')?.value
         };
-        this.http.post('http://localhost:8080/auth/login', login, { responseType: 'text' }).subscribe((response: any) => {
-          console.log(response);
-          this.router.navigate(['/dashboard']);
-          const token = response.token;
-
-          // Store the token for further use
-
-          this.authService.setToken(token);
-
-          this.router.navigate(['/dashboard']);
-
-          this.authService.setLoginStatus(true);
-          this.authService.setLoginStatus(true);
-        },
-        (error: any) => {
-          console.error('Login failed');
-          this.errorMessage = 'Invalid email or password.';
-        }
-      );
+  
+        this.http.post('http://localhost:8080/auth/login', login, { responseType: 'json' }).subscribe(
+          (response: any) => {
+            console.log(response);
+            // Check if response contains a token
+            if (response && response.token) {
+              const token = response.token;
+              // Store the token for further use
+              this.authService.setToken(token);
+              this.authService.setLoginStatus(true);
+              // Navigate to the home page
+              this.router.navigate(['/home']);
+            } else {
+              console.error('Login failed: Token not found in response');
+              this.errorMessage = 'Invalid response from server.';
+            }
+          },
+          (error: any) => {
+            console.error('Login failed:', error);
+            this.errorMessage = 'Invalid email or password.';
+          }
+        );
+        
       } else {
         this.errorMessage = 'Please fill out all required fields.';
       }
     }
   }
+  
 
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;

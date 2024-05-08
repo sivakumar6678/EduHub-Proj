@@ -56,8 +56,12 @@
           </div>
           <div class="modal-footer">
             <div class="enroll-footer text-center">
-              <!-- Button to trigger enrollment -->
-              <button class="btn btn-primary" (click)="enrollCourse(selectedCourseId)">Enroll Course</button>
+              <span *ngIf="authService.isLoggedIn()">
+                <button class="btn btn-primary" (click)="enrollCourse(selectedCourseId)">Enroll Course</button>
+              </span>
+              <span *ngIf="!authService.isLoggedIn()">
+                <a class="btn btn-info" routerLink="/login">  Login</a>
+              </span>
             </div>
           </div>
         </div>

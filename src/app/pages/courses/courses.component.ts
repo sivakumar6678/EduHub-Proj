@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router ,RouterModule} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../authentication.service';
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [LoginComponent, CommonModule, FormsModule],
+  imports: [LoginComponent, CommonModule, FormsModule,RouterModule],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
@@ -21,7 +21,9 @@ export class CoursesComponent implements OnInit {
   searchTerm: string = '';
   selectedCourseId: number = 0;
 
-  constructor(private http: HttpClient, private authService: AuthenticationService) { }
+  constructor(private http: HttpClient,
+              public authService: AuthenticationService,
+              public router:Router) { }
 
   ngOnInit(): void {
     this.fetchCategories();
@@ -29,27 +31,40 @@ export class CoursesComponent implements OnInit {
 
   // for enrollment of courses
   enrollCourse(courseId: number): void {
-    const enrollmentDate = new Date().toISOString(); // Get the current date
-    const apiUrl = `http://localhost:8080/api/enroll`;
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error('No token available');
+      return;
+    }
+    const enrollmentDate = new Date().toISOString().split('T')[0];   
+    const apiUrl = 'http://localhost:8080/api/enroll';
     const requestBody = {
-      courseId: courseId,
+      courseId: courseId.toString(), // Convert courseId to string
       enrollmentDate: enrollmentDate
     };
-
-    const token = this.authService.getToken();
+  
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     });
+  
+    this.http.post(apiUrl, requestBody, { headers, observe: 'response' })
+     .subscribe(
+        (response) => {
+          console.log('Enrolled successfully:', response);
+          this.router.navigate(['/dashboard']);
 
-    this.http.post<any>(apiUrl, requestBody, { headers: headers }).subscribe(
-      (response) => {
-        console.log('Enrolled successfully:', response);
-      },
-      (error) => {
-        console.error('Error enrolling course:', error);
-      }
-    );
+        },
+        (error) => {
+          console.error('Error enrolling course:', error);
+          if (error.headers instanceof HttpHeaders) {
+            console.error('Error headers:', error.headers);
+          }
+          console.error('Error details:', error.error);
+        }
+      );
   }
+  
+  
 
   // for getting categories
   fetchCategories(): void {

@@ -35,48 +35,54 @@
 
     
 
-<section class="courses">
-  <h1 class="heading">Enrolled Courses</h1>
-  <div class="box-container">
-    <div class="row box justify-content-center" *ngFor="let course of enrolledCourses">
-      <div class="col-md-4" >
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body courselist ">
-            <ul>
-              <li>
-                <h5 class="card-title title">{{ course.courseName }}</h5>
-              </li>
-              <li>
-                <button class="btn btn-primary info" (click)="toggleCourseContent(course.courseId)">View Details</button>
-              </li>
-              <li>
-                <button class="btn btn-primary danger" (click)="toggleCourseContent(course.courseId)">Un Enroll</button>
-              </li>
-            </ul>
-            <div class="coursecontent" *ngIf="course.showContent">
-              <h6>Course Content:</h6>
-              <ul>
-                <li *ngFor="let content of course.courseContent">
-                  <b>Title : </b>{{ content.contentTitle }} <br>
-                  <b>Description : </b>{{ content.contentDescription }} <br>
-                  <b>Content URL : </b><a [href]="content.contentURL" target="_blank">{{ content.contentURL }}</a> <br>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" [style.width]="content.progress + '%'">
-                      {{ content.progress }}%
-                    </div>
-                  </div>
+    <section class="courses">
+      <h1 class="heading">Enrolled Courses</h1>
+      <div class="box-container">
+        <div class="row box" *ngFor="let course of enrolledCourses">
+          <div class="col-md-12">
+            <div class="card-body">
+              <ul class="list-group list-group-horizontal">
+                <li>
+                  <h2 class="card-title title">{{ course.courseName }}</h2>
+                </li>
+                <li class="ml-auto m-3">
+                  <button class="btn btn-primary btn-block p-2" (click)="toggleCourseContent(course.courseId)">View Details</button>
+                </li>
+                <li class="mr-4">
+                  <button class="btn btn-danger btn-block p-2" (click)="toggleCourseContent(course.courseId)">Un Enroll</button>
                 </li>
               </ul>
+              
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="more-btn">
-    <a href="/courses" class="inline-option-btn">View All Courses</a>
-  </div>
-</section>
+      <div class="more-btn">
+        <a href="/courses" class="inline-option-btn">View All Courses</a>
+      </div>
+    </section>
+
+
+      <section *ngIf="selectedCourse" class="course-overview">
+        <h2>Course overview</h2>
+        <h2>{{ selectedCourse.courseName }} </h2>
+        <ul>
+          <li *ngFor="let content of selectedCourse.courseContent">
+            <b>Title : </b>{{ content.contentTitle }} <br>
+            <b>Description : </b>{{ content.contentDescription }} <br>
+            <b>Content URL : </b><a [href]="content.contentURL" target="_blank">{{ content.contentURL }}</a> <br>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" [style.width]="content.progress + '%'">
+                {{ content.progress }}%
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    
+      <!-- ... (footer code) -->
+
+    
 
     
     <footer class="footer">

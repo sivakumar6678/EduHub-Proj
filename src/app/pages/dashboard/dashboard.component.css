@@ -76,7 +76,6 @@ section{
 .inline-btn,
 .inline-option-btn,
 .inline-delete-btn,
-.btn,
 .delete-btn,
 .option-btn{
    border-radius: .5rem;
@@ -89,7 +88,6 @@ section{
    margin-top: 1rem;
 }
 
-.btn,
 .delete-btn,
 .option-btn{
    display: block;
@@ -103,7 +101,6 @@ section{
    display: inline-block;
 }
 
-.btn,
 .inline-btn{
    background-color: var(--main-color);
 }
@@ -121,7 +118,6 @@ section{
 .inline-btn:hover,
 .inline-option-btn:hover,
 .inline-delete-btn:hover,
-.btn:hover,
 .delete-btn:hover,
 .option-btn:hover{
    background-color: var(--black);
@@ -398,85 +394,84 @@ header .flex .profile{
    color:var(--white);
 }
 /* Common styles for all boxes */
-.courses .box-container .box {
-   background-color: var(--white);
-   border-radius: .5rem; /* Rounded corners */
-   padding: 2rem;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Glossy effect */
-   transition: all 0.3s ease; /* Smooth transition */
-}
-
-/* Hover effect */
-.courses .box-container .box:hover {
-   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-.courselist ul{
+.courses .box-container {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   /* background: #000; */
+ }
+ 
+ .courses .box-container ul {
+   list-style-type: none;
    display: flex;
-}
-/* Image styles */
-.courses .box-container .box img {
-   width: 100%;
-   height: 20rem; /* Adjust height as needed */
-   object-fit: cover;
-   border-radius: .5rem; /* Rounded corners */
-}
-
-/* Title styles */
-.courses .box-container .box .title {
-   margin-top: 1.5rem; /* Adjust margin as needed */
-   font-size: 2rem; /* Adjust font size as needed */
-   color: var(--black);
-}
-
-/* Tutor styles */
-.courses .box-container .box .tutor {
-   display: block;
    align-items: center;
-   gap: 15rem;
-   padding: 0 1rem;
-   margin-bottom: 2rem;
-}
-
-.courses .box-container .box .tutor img {
-   height: 5rem; /* Adjust height as needed */
-   width: 5rem; /* Adjust width as needed */
-   border-radius: 50%;
-   object-fit: cover;
-}
-.courses .coursecontent{
-   min-width: 25vh;
-   margin:1vh;
-   padding:1vh;
-   border: 1px solid blue;
+   /* background: rgb(243, 223, 7); */
+   font-size: 1.2rem;
+ }
+ 
+ .courses .box-container .courselist ul li {
+   font-size: 1rem;
+ }
+ 
+ .courses .box-container .box {
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   transition: all 0.3s ease;
+   border-radius: 0.5rem;
+   padding:2px 0;
+ }
+ 
+ .courses .box-container .box:hover {
+   box-shadow: 0 6px 8px rgba(54, 54, 54, 0.853);
+ }
+ 
+ .card-body ul li .btn {
+   height: 2.5rem;
+ }
+ 
+ .card-body {
    background: whitesmoke;
-}
-.courses .coursecontent ul li{
-   
-   font-size: 1.5 rem;
-}
-.courses .box-container .box .tutor h3 {
-   font-size: 1.8rem; /* Adjust font size as needed */
-   margin-bottom: .2rem;
-}
-
-.courses .box-container .box .tutor span {
-   font-size: 1.3rem; /* Adjust font size as needed */
-   color: var(--light-color);
-}
-.courses 
- {
+   border-radius: 1vh;
+   text-wrap:wrap;
+ }
+ .card-body :hover{
+   background: rgba(197, 195, 195, 0.241);
+ }
+ .card-title {
+   margin: 1rem;
+   padding: 1rem;
+   color: var(--black);
+   font-weight: bold;
+ }
+ 
+ .courses {
+   margin-top:5vh;
    background: aquamarine;
    display: block;
-}
-.card-title.title{
-   margin:1rem;
-   padding:1rem;
-   font-size: 2rem;
-   color: var(--black);
-   text-align: center;
-   background: antiquewhite;
+ }
+.coursecontent{
+   margin:0.5rem 1rem;
+   padding:0.5rem 1rem;
+
 }
 
+.course-overview{
+   /* margin:1rem; */
+   padding:10px;
+   background: skyblue;
+   border:1px solid black;
+}
+.course-overview li{
+   padding:1rem;
+   background: moccasin;
+   border: 2px solid blue;
+   box-shadow: 0 0 1px 1px green;
+}
+.course-overview ul{
+   list-style-type: none;
+   display: flex;
+   padding: 10px 1rem;
+   justify-content: space-evenly;
+}
 
 .user-profile .info{
    background-color: var(--white);
@@ -550,130 +545,7 @@ header .flex .profile{
    font-size: 1.7rem;
 }
 
-.contact .row{
-   display: flex;
-   align-items: center;
-   flex-wrap: wrap;
-   gap: 1.5rem;
-}
 
-.contact .row .image{
-   flex: 1 1 50rem;
-}
-
-.contact .row .image img{
-   width: 100%;
-}
-
-.contact .row form{
-   flex: 1 1 30rem;
-   background-color: var(--white);
-   padding: 2rem;
-   text-align: center;
-}
-
-.contact .row form h3{
-   margin-bottom: 1rem;
-   text-transform: capitalize;
-   color:var(--black);
-   font-size: 2.5rem;
-}
-
-.contact .row form .box{
-   width: 100%;
-   border-radius: .5rem;
-   background-color: var(--light-bg);
-   margin: 1rem 0;
-   padding: 1.4rem;
-   font-size: 1.8rem;
-   color: var(--black);
-}
-
-.contact .row form textarea{
-   height: 20rem;
-   resize: none;
-}
-
-.contact .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-   gap:1.5rem;
-   justify-content: center;
-   align-items: flex-start;
-   margin-top: 3rem;
-}
-
-.contact .box-container .box{
-   text-align: center;
-   background-color: var(--white);
-   border-radius: .5rem;
-   padding: 3rem;
-}
-
-.contact .box-container .box i{
-   font-size: 3rem;
-   color: var(--main-color);
-   margin-bottom: 1rem;
-}
-
-.contact .box-container .box h3{
-   font-size: 2rem;
-   color:var(--black);
-   margin: 1rem 0;
-}
-
-.contact .box-container .box a{
-   display: block;
-   padding-top: .5rem;
-   font-size: 1.8rem;
-   color: var(--light-color);
-}
-
-.contact .box-container .box a:hover{
-   text-decoration: underline;
-   color:var(--black);
-}
-
-.form-container{
-   min-height: calc(100vh - 20rem);
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-.form-container form{
-   background-color: var(--white);
-   border-radius: .5rem;
-   padding: 2rem;
-   width: 50rem;
-}
-
-.form-container form h3{
-   font-size: 2.5rem;
-   text-transform: capitalize;
-   color: var(--black);
-   text-align: center;
-}
-
-.form-container form p{
-   font-size: 1.7rem;
-   color: var(--light-color);
-   padding-top: 1rem;
-}
-
-.form-container form p span{
-   color: var(--red);
-}
-
-.form-container form .box{
-   font-size: 1.8rem;
-   color: var(--black);
-   border-radius: .5rem;
-   padding: 1.4rem;
-   background-color: var(--light-bg);
-   width: 100%;
-   margin: 1rem 0;
-}
 
 
 .footer{

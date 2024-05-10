@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   enrolledCourses: any[] = []; 
   courses: any[] = [];
   courseContent: any[] = [];
+  selectedCourse: any; 
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -36,9 +37,13 @@ export class DashboardComponent implements OnInit {
       course.showContent = !course.showContent;
       if (course.showContent) {
         this.fetchCourseContent(courseId);
+        this.selectedCourse = course;
+      } else {
+        this.selectedCourse = null;
       }
     }
   }
+
   fetchEnrolledCourses(): void {
     const token = this.authService.getToken();
 
@@ -76,7 +81,9 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  
+  showCourseOverview(course: any): void {
+    this.selectedCourse = course;
+  }
   
 
  

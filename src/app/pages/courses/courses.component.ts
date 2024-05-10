@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,ViewChild, ElementRef } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { ActivatedRoute, Router ,RouterModule} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class CoursesComponent implements OnInit {
   filteredCategories: any[] = [];
   searchTerm: string = '';
   selectedCourseId: number = 0;
-
+  showEnrollment: boolean = false;
   constructor(private http: HttpClient,
               public authService: AuthenticationService,
               public router:Router) { }
@@ -28,7 +28,9 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
     this.fetchCategories();
   }
-
+  toggleEnrollment(): void {
+    this.showEnrollment = !this.showEnrollment;
+  }
   // for enrollment of courses
   enrollCourse(courseId: number): void {
     const token = this.authService.getToken();
@@ -51,8 +53,13 @@ export class CoursesComponent implements OnInit {
      .subscribe(
         (response) => {
           console.log('Enrolled successfully:', response);
+          const responseBody = response.body as { message: string }; // Type assertion          
+          if (responseBody && responseBody.message === 'Enrolled Successfully') {
+            alert('Enrolled successfully!');
+        } else {
+            alert('Already enrolled!');
+        }
           this.router.navigate(['/dashboard']);
-
         },
         (error) => {
           console.error('Error enrolling course:', error);
@@ -118,12 +125,15 @@ export class CoursesComponent implements OnInit {
     });
 
     const index = this.courses.findIndex(course => course.courseId === courseId);
-    if (index!== -1) {
-      this.courses[index].showContent =!this.courses[index].showContent;
+    if (index !== -1) {
+      this.courses[index].showContent = !this.courses[index].showContent;
       if (this.courses[index].showContent) {
         this.fetchCourseContent(courseId);
         this.selectedCourseId = courseId;
+        this.showEnrollment = true; // show enrollment section
+  
       }
+  
     }
   }
 }

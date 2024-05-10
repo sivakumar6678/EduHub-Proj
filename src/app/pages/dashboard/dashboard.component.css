@@ -408,10 +408,11 @@ header .flex .profile{
 
 /* Hover effect */
 .courses .box-container .box:hover {
-   transform: translateY(-5px); /* Lift up on hover */
    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
-
+.courselist ul{
+   display: flex;
+}
 /* Image styles */
 .courses .box-container .box img {
    width: 100%;
@@ -465,6 +466,7 @@ header .flex .profile{
 .courses 
  {
    background: aquamarine;
+   display: block;
 }
 .card-title.title{
    margin:1rem;

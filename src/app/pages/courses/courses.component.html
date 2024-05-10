@@ -1,5 +1,5 @@
 <div class="container">
-  <section class="home-grid">
+  <section class="home-grid " *ngIf="!showEnrollment" >
     <h1 class="text-center text-bg bg-light p-2 rounded-pill">Select category of courses</h1>
     <div class="category-dropdown dropdown">
       <input type="text" class="dropdown-toggle form-control" data-toggle="dropdown" placeholder="Search Category" [(ngModel)]="searchTerm" (input)="filterCategories()">
@@ -11,7 +11,7 @@
     </div>
   </section>
 
-  <section class="courses">
+  <section class="courses" *ngIf="!showEnrollment">
     <h1 class="heading">Our Courses</h1>
     <div class="table-container">
       <table class="table table-hover">
@@ -27,17 +27,19 @@
       <a href="/courses" class="inline-option-btn">View All Courses</a>
     </div>
 
-    <div class="modal fade" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title">Course Enrollment</h1>
-            <button type="button" class="close" data-dismiss="modal">×</button>
+
+  </section>
+  <section class="enrollsection" id="enrollsection" *ngIf="showEnrollment">
+    <div class="enrollModal" id="enrollModal" tabindex="-1" role="dialog" aria-labelledby="enrollModalLabel" aria-hidden="true">
+      <div class="enrollmodal-dialog modal-dialog-centered" role="document">
+        <div class="enrollmodal-content">
+          <div class="enrollmodal-header bg-primary text-white">
+            <h2 class="enrollmodal-title" id="enrollModalLabel">Course Enrollment</h2>
           </div>
           <div class="modal-body">
             <div *ngFor="let course of courses">
               <div class="coursecontent" *ngIf="course.showContent">
-                <table class="table table-hover">
+                <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th>Title</th>
@@ -54,18 +56,20 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <div class="enroll-footer text-center">
+          <div class="enroll-footer">
+            <div class="enroll-foot text-center">
               <span *ngIf="authService.isLoggedIn()">
                 <button class="btn btn-primary" (click)="enrollCourse(selectedCourseId)">Enroll Course</button>
               </span>
               <span *ngIf="!authService.isLoggedIn()">
-                <a class="btn btn-info" routerLink="/login">  Login</a>
+                <a class="btn btn-info" routerLink="/login">Login</a>
               </span>
             </div>
           </div>
+          <div class="btn btn-info">View Courses</div>
         </div>
       </div>
     </div>
+
   </section>
 </div>

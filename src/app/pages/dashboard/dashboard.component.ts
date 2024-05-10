@@ -17,11 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class DashboardComponent implements OnInit {
   categories: any[] = [];
   enrolledCourses: any[] = []; 
-  courses: any[] = [
-    { courseId: 1, courseName: 'Course 1', progress: 0 },
-    { courseId: 2, courseName: 'Course 2', progress: 0 },
-    // Add more courses as needed
-  ];
+  courses: any[] = [];
   courseContent: any[] = [];
   constructor(
     private http: HttpClient,
@@ -35,12 +31,14 @@ export class DashboardComponent implements OnInit {
     this.fetchEnrolledCourses();
   }
   toggleCourseContent(courseId: number): void {
-    const course = this.courses.find(course => course.courseId === courseId);
+    const course = this.enrolledCourses.find(course => course.courseId === courseId);
     if (course) {
       course.showContent = !course.showContent;
+      if (course.showContent) {
+        this.fetchCourseContent(courseId);
+      }
     }
   }
-
   fetchEnrolledCourses(): void {
     const token = this.authService.getToken();
 
@@ -60,6 +58,20 @@ export class DashboardComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching enrolled courses:', error);
+      }
+    );
+  }
+  fetchCourseContent(courseId: number): void {
+    this.http.get<any[]>(`http://localhost:8080/auth/course-content/${courseId}`).subscribe(
+      (response: any[]) => {
+        console.log(response);
+        const course = this.enrolledCourses.find(course => course.courseId === courseId);
+        if (course) {
+          course.courseContent = response;
+        }
+      },
+      (error) => {
+        console.error('Error fetching course content:', error);
       }
     );
   }

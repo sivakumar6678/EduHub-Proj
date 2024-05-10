@@ -110,37 +110,55 @@
   top: 10%;
   left: 30%;
 }
-
-.modal-title{
-  margin-left: 5vw;
-  padding:0 2rem;
-}
-.modal-body{
-  padding:0 2rem;
-}
-.modal-body .coursecontent  thead tr th{
-  background-color: #007bff;
-  color: white;
-  font-size: 1.2rem;
-}
-.modal-body .coursecontent tbody tr td{
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-.modal-footer  {
-  display: flex;
-  justify-content: space-between;
-  place-content: center;
-  text-align: center;
+.enrollsection{
+  justify-content: center;
+  border-radius: 10px;
   align-items: center;
-  padding:0.5rem 2rem;
+  margin-top: 20px;
+  
 }
-.modal-footer .enroll-footer .btn{
-  font-size: 1.2rem;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+.modal-dialog-centered {
+  /* min-width: 80%; */
+  /* background: aqua; */
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top:5rem;
+  display: flex;
+  
+  justify-content: center;
 }
+.enrollmodal-content{
+  margin:0.5rem;
+  padding:0.5rem;
+  background: ghostwhite;
+  border:1px solid black;
+
+}
+.enrollmodal-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: gray;
+}
+
+.enrollmodal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+  text-align: center;
+  color: white;
+}
+
+.enrollmodal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.enrollmodal-foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 /* Styling for the table container */
 .table-container {
   border-radius: 10px;
@@ -168,7 +186,7 @@ table td {
 
 /* Styling for the enroll button */
 .btn-primary {
-  width: 5vw;
+  /* width: 5vw; */
   background-color: #007bff;
   color: #fff;
   border: none;

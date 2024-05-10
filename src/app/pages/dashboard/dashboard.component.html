@@ -34,67 +34,50 @@
     </div>
 
     
-    <div class="col-md-4" *ngFor="let course of courses">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-body tutor">
-          <h5 class="card-title title">{{ course.courseName }}</h5>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" [style.width.%]="course.progress" [attr.aria-valuenow]="course.progress" aria-valuemin="0" aria-valuemax="100">{{ course.progress }}%</div>
-          </div>
-          <div class="progress-input">
-            <input type="number" class="form-control" [(ngModel)]="course.progress" min="0" max="100" placeholder="Enter progress">
-          </div>
-          <button class="btn btn-primary info" (click)="toggleCourseContent(course.courseId)">View Details</button>
-          <div class="coursecontent" *ngIf="course.showContent">
-            <h6>Course Content:</h6>
+
+<section class="courses">
+  <h1 class="heading">Enrolled Courses</h1>
+  <div class="box-container">
+    <div class="row box justify-content-center" *ngFor="let course of enrolledCourses">
+      <div class="col-md-4" >
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body courselist ">
             <ul>
-              <li *ngFor="let content of courseContent">
-                <b>Title : </b>{{ content.contentTitle }} <br>
-                <b>Description : </b> {{ content.contentDescription }} <br>
-                <b>Content URL : </b> <a [href]="content.contentURL" target="_blank">{{ content.contentURL }}</a>
+              <li>
+                <h5 class="card-title title">{{ course.courseName }}</h5>
+              </li>
+              <li>
+                <button class="btn btn-primary info" (click)="toggleCourseContent(course.courseId)">View Details</button>
+              </li>
+              <li>
+                <button class="btn btn-primary danger" (click)="toggleCourseContent(course.courseId)">Un Enroll</button>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-<section class="enrolled-courses">
-  <h2>Enrolled Courses</h2>
-  <div class="course-list">
-    <div *ngFor="let course of enrolledCourses" class="course-item">
-      <h3>{{ course.courseName }}</h3>
-    </div>
-  </div>
-</section>
-    <section class="courses">
-      <h1 class="heading">Our Courses</h1>
-      <div class="box-container">
-        <div class="row box">
-          <div class="col-md-4" *ngFor="let course of courses">
-            <div class="card mb-4 shadow-sm">
-              <div class="card-body tutor">
-                <h5 class="card-title title">{{ course.courseName }}</h5>
-              <button class="btn btn-primary info " (click)="toggleCourseContent(course.courseId)">View Details</button>
-                <div  class="coursecontent" *ngIf="course.showContent">
-                  <h6>Course Content:</h6>
-                  <ul>
-                    <li *ngFor="let content of courseContent">
-                      <b>Title : </b>{{ content.contentTitle }} <br>
-                      <b>Description : </b> {{ content.contentDescription }} <br>
-                      <b>Content URL : </b> <a [href]="content.contentURL" target="_blank"> {{ content.contentURL }} </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div class="coursecontent" *ngIf="course.showContent">
+              <h6>Course Content:</h6>
+              <ul>
+                <li *ngFor="let content of course.courseContent">
+                  <b>Title : </b>{{ content.contentTitle }} <br>
+                  <b>Description : </b>{{ content.contentDescription }} <br>
+                  <b>Content URL : </b><a [href]="content.contentURL" target="_blank">{{ content.contentURL }}</a> <br>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" [style.width]="content.progress + '%'">
+                      {{ content.progress }}%
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-      <div class="more-btn">
-        <a href="/courses" class="inline-option-btn">View All Courses</a>
-      </div>
-    </section>
+    </div>
+  </div>
+  <div class="more-btn">
+    <a href="/courses" class="inline-option-btn">View All Courses</a>
+  </div>
+</section>
+
     
     <footer class="footer">
       &copy;<span>EduHub</span> | All Rights Reserved!

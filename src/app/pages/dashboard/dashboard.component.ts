@@ -1,21 +1,14 @@
 import { Component, OnInit ,ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { CoursesComponent } from '../courses/courses.component';
-import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { last } from 'rxjs';
 @Component({
-  selector: 'app-dashboard',
+  // selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  standalone: true,
-  imports: [HttpClientModule, CommonModule, RouterModule, CoursesComponent, FormsModule,ButtonModule,ToastModule],
+  // standalone: true,
+  // imports: [HttpClientModule, CommonModule, RouterModule, CoursesComponent, FormsModule,ButtonModule,ToastModule],
   providers: [MessageService]
 
 })

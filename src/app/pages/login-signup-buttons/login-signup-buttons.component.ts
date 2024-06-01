@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-login-signup-buttons',
   templateUrl: './login-signup-buttons.component.html',
   styleUrl: './login-signup-buttons.component.css',
-  standalone:true,
-  imports:[]
 })
 export class LoginSignupButtonsComponent {
   @Output() login = new EventEmitter<void>();

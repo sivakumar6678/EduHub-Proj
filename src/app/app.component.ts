@@ -16,9 +16,8 @@ import { NgModule } from '@angular/core';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
-      HeaderComponent, FooterComponent, HomeComponent,CommonModule,FontAwesomeModule
-  ]  
+    imports: [RouterOutlet, CommonModule,HeaderComponent,FooterComponent] 
+
 })
 export class AppComponent {
 

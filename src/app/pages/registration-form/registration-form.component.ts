@@ -2,26 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterOutlet } from '@angular/router';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
-import { HomeComponent } from '../home/home.component';
-import { LoginComponent } from '../login/login.component';
-import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-registration-form',
+  // selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.css'],
-  standalone: true,
-  imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
-    HeaderComponent, FooterComponent, HomeComponent, CommonModule, ReactiveFormsModule, HttpClientModule, ToastModule, ButtonModule],
+  // standalone: true,
+  // imports: [RouterOutlet, DashboardComponent, RegistrationFormComponent, LoginComponent, LoginSignupButtonsComponent,
+  //   HeaderComponent, FooterComponent, HomeComponent, CommonModule, ReactiveFormsModule, HttpClientModule, ToastModule, ButtonModule],
   providers: [MessageService]
 })
 export class RegistrationFormComponent implements OnInit {

@@ -1,17 +1,12 @@
 import { Component, OnInit, Input,ViewChild, ElementRef } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
 import { ActivatedRoute, Router ,RouterModule} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { AuthenticationService } from '../../authentication.service';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { ButtonModule } from 'primeng/button';
 @Component({
-  selector: 'app-courses',
-  standalone: true,
-  imports: [LoginComponent, CommonModule, FormsModule,RouterModule,ToastModule,ButtonModule],
+  // selector: 'app-courses',
+  // standalone: true,
+  // imports: [LoginComponent, CommonModule, FormsModule,RouterModule,ToastModule,ButtonModule],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css'],
   providers: [MessageService]

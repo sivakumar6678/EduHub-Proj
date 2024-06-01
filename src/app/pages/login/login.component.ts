@@ -2,27 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { LoginSignupButtonsComponent } from '../login-signup-buttons/login-signup-buttons.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
-import { HomeComponent } from '../home/home.component';
-import { RegistrationFormComponent } from '../registration-form/registration-form.component';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthenticationService } from '../../authentication.service';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { Injectable } from '@angular/core';
-import { error } from 'console';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  standalone:true,
-  imports:[LoginSignupButtonsComponent,HeaderComponent,FooterComponent,HomeComponent,DashboardComponent,RegistrationFormComponent,HttpClientModule,CommonModule,ReactiveFormsModule,FontAwesomeModule,ToastModule],
+  // standalone:true,
+  // imports:[LoginSignupButtonsComponent,HeaderComponent,FooterComponent,HomeComponent,DashboardComponent,RegistrationFormComponent,HttpClientModule,CommonModule,ReactiveFormsModule,FontAwesomeModule,ToastModule],
   providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
